@@ -1,0 +1,16 @@
+services:
+  php-fpm:
+    build:
+      dockerfile: ./php/Dockerfile
+    volumes:
+      - ./src/:/var/www/html  # Montar a pasta do projeto no container
+  
+  apache:
+    build:
+      dockerfile: ./server/Dockerfile    
+    ports:
+      - "80:80"  # Porta para acessar o Apache
+    volumes:
+      - ./src/:/var/www/html/  # Montar a pasta do projeto no container
+    depends_on:
+      - php-fpm  # Garantir que o PHP esteja rodando antes do Apache
